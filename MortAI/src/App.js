@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-function App() {
+const App = () => {
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    // Make GET request to FastAPI
+    axios.get("http://localhost:8000/api/greet")
+      .then(response => {
+        setMessage(response.data.message);
+      })
+      .catch(error => {
+        console.error("There was an error making the request!", error);
+      });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>FastAPI and React</h1>
+      <p>{message}</p>
     </div>
   );
-}
+};
 
 export default App;
